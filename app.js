@@ -1,29 +1,49 @@
-let slidePosition = 1;
-var photo = document.getElementsByTagName('img')[0]
-    // var totalSlides
+const images = [{
+        id: 1,
+        url: './assets/big.jpg',
+    },
+    {
+        id: 2,
+        url: './assets/download.jpg',
+    },
+    {
+        id: 3,
+        url: './assets/download3.jpg',
+    },
+    {
+        id: 4,
+        url: './assets/images.jpg',
+    },
+    {
+        id: 5,
+        url: './assets/images2.jpg',
+    },
+]
 
+let slidePosition = 0;
+var photo = document.getElementsByTagName('img')[0]
+photo.setAttribute("src", images[slidePosition].url)
+let timer = setInterval(() => {
+    photo.setAttribute("src", images[slidePosition].url)
+    slidePosition++
+}, 3000);
+
+function stopTimer() {
+    clearInterval(timer)
+}
 
 document
     .getElementById("carousel__button--next")
     .addEventListener("click", function() {
-        moveToNextSlide();
+        moveToNextSlide(images.length);
+        stopTimer()
     });
 document
     .getElementById("carousel__button--prev")
     .addEventListener("click", function() {
-        moveToPrevSlide();
+        moveToPrevSlide(images.length);
+        stopTimer()
     })
-
-
-fetch(`https://jsonplaceholder.typicode.com/photos/`)
-    .then(response => response.json())
-    .then(data => {
-        console.log(data)
-            // photo.setAttribute("src", data.url)
-        moveToNextSlide(data.length)
-        moveToPrevSlide(data.length)
-    }).catch(error => console.log(error))
-
 
 function moveToNextSlide(totalSlides) {
     if (slidePosition === totalSlides - 1) {
@@ -31,13 +51,7 @@ function moveToNextSlide(totalSlides) {
     } else {
         slidePosition++;
     }
-
-    fetch(`https://jsonplaceholder.typicode.com/photos/${slidePosition}`)
-        .then(response => response.json())
-        .then(data => {
-            console.log(data)
-            photo.setAttribute("src", data.url)
-        }).catch(error => console.log(error))
+    photo.setAttribute("src", images[slidePosition].url)
 }
 
 function moveToPrevSlide(totalSlides) {
@@ -46,34 +60,5 @@ function moveToPrevSlide(totalSlides) {
     } else {
         slidePosition--;
     }
-
-    fetch(`https://jsonplaceholder.typicode.com/photos/${slidePosition}`)
-        .then(response => response.json())
-        .then(data => {
-            console.log(data)
-            photo.setAttribute("src", data.url)
-        }).catch(error => console.log(error))
+    photo.setAttribute("src", images[slidePosition].url)
 }
-
-// let container = document.querySelector('.container')
-// let photo = document.createElement('img')
-// photo.classList.add('image')
-// container.appendChild(photo)
-// let i = 2
-// fetch(`https://jsonplaceholder.typicode.com/photos/${i}`)
-//     .then(response => response.json())
-//     .then(data => {
-//         console.log(data)
-//         photo.setAttribute("src", data.url)
-//     });
-
-
-
-
-// fetch('https://jsonplaceholder.typicode.com/photos/1')
-//     .then(response => response.json())
-//     .then(data => console.log(data));
-
-// fetch('https://dog.ceo/api/breed/hound/images/random/4')
-//     .then(response => response.json())
-//     .then(json => console.log(json))
